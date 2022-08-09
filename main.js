@@ -1,17 +1,31 @@
 
-const fs = require('fs');
-const AWS = require('aws-sdk');
+// const fs = require('fs');
+// const AWS = require('aws-sdk');
 
-const S3 = new AWS.S3({region: 'us-east-1'})
+// const S3 = new AWS.S3({region: 'us-east-1'})
 
-const upload = async () => {
-    const fileContent = fs.readFileSync('uploadme.txt');
-    await S3.upload({ Bucket: 'siu-avb-bucket', Key: 'upload-file-stu7.txt', Body: fileContent }).promise()
-}
+// const upload = async () => {
+//     const fileContent = fs.readFileSync('uploadme.txt');
+//     await S3.upload({ Bucket: 'siu-avb-bucket', Key: 'upload-py-stu7.txt', Body: fileContent }).promise()
+// }
 
-upload();
+// upload();
 
 //possible code for download:
+
+const fs = require('fs');
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3({region: 'us-east-1'})
+const downloadFile = async (filePath, bucketName, key) => {
+    const params = {
+      Bucket: bucketName,
+      Key: key
+    };
+    const data = await s3.getObject(params).promise();
+    fs.writeFileSync(filePath, data.Body.toString());
+  };
+  
+downloadFile('downloadme.txt', 'siu-avb-bucket', 'downloadme_stu7.txt')
 
 // Import required AWS SDK clients and commands for Node.js.
 // import { GetObjectCommand } from "@aws-sdk/client-s3";
